@@ -1,4 +1,30 @@
-.box{
-    max-width: 1400px;
-    margin: 0 auto;
+.userhead {
+  background-image: url("wall-416060_640.jpg");
+  height: 500px;
+}
+
+.box {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.userBody {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+  height: 400px;
+}
+
+.userBody h1 {
+  color: #fff;
+  font-weight: 700;
+  font-size: 60px;
+}
+
+.userBody p {
+  max-width: 540px;
+  color: #fff;
+  text-align: center;
 }

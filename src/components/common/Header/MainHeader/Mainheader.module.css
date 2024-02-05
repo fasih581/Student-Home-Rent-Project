@@ -2,8 +2,13 @@
   padding: 15px 0;
   display: flex;
   align-items: center;
-  background-color: brown;
+  /* background-color: brown; */
   justify-content: space-between;
+}
+
+h3.heading{
+  font-weight: 800;
+  color: #fff;
 }
 
 .navHeader {
@@ -25,9 +30,11 @@
 .navPage p {
   margin: 0;
   font-size: 15px;
+  color: #fff;
 }
 .navPage span {
   font-size: 15px;
+  color: #fff;
 }
 
 span.icon{
@@ -36,7 +43,7 @@ span.icon{
 
 button.btn:hover,
 button.btn{
-  background-color: green;
+  background-color: #D1345B;
     display: flex;
     gap: 10px;
     align-items: center;

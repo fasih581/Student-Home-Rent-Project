@@ -13,7 +13,7 @@ import PopupState, { bindTrigger, bindMenu } from "material-ui-popup-state";
 const MainHeader = () => {
   return (
     <div className={Css.header}>
-      <h3>Home</h3>
+      <h3 className={Css.heading}>Home</h3>
       <div className={Css.navHeader}>
         <div className={Css.navbar}>
           <div className={Css.navPage}>
