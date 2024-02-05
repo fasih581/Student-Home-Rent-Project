@@ -1,0 +1,10 @@
+#root {
+  max-width: 1850px;
+  margin: 0 auto;
+  font-family: 'Poppins', sans-serif;
+  padding: 0;
+}
+
+/* @tailwind base;
+@tailwind components;
+@tailwind utilities; */

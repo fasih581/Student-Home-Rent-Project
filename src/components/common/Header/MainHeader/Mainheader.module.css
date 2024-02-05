@@ -1,0 +1,48 @@
+.header {
+  padding: 15px 0;
+  display: flex;
+  align-items: center;
+  background-color: brown;
+  justify-content: space-between;
+}
+
+.navHeader {
+  display: flex;
+  gap: 40px;
+}
+
+.navbar {
+  display: flex;
+  gap: 30px;
+}
+
+.navPage {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.navPage p {
+  margin: 0;
+  font-size: 15px;
+}
+.navPage span {
+  font-size: 15px;
+}
+
+span.icon{
+  font-size: 20px;
+}
+
+button.btn:hover,
+button.btn{
+  background-color: green;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    border-radius: 15px;
+    border: none;
+}
+
+
+
