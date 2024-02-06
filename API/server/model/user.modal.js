@@ -18,7 +18,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, "phone is required"],
   },
-  // this will be a assignmen
+  // this will be a assignment
   // token: {
   //   type: String,
   //   default: null,

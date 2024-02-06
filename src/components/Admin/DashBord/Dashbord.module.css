@@ -1,0 +1,21 @@
+.boxall {
+    max-width: 1850px;
+    margin: 0 auto;
+    /* background-color: red; */
+    height: 100vh;
+  }
+
+  .box{
+    display: flex;
+  }
+
+  .sideNav{
+    background-color: #fff;
+    width: 280px;
+    height: 100vh;
+    border-right: 1px solid #D3D3D3;
+}
+
+.Mainpage{
+
+}
