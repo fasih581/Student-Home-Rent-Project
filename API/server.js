@@ -2,6 +2,7 @@ const express = require('express');
 const dotenv = require("dotenv");
 const bodyparser = require("body-parser");
 const cros = require("cors");
+const path = require("path");
 
 const connectmongo = require("../API/server/database/connectionDB")
 
@@ -21,14 +22,16 @@ app.use(bodyparser.urlencoded({ extended: true }));
 
 // Parse URL-encoded bodies for this app
 app.use(express.urlencoded({ extended: true }));
-
+app.use('/img', express.static(path.join(__dirname, 'img')))
+// app.use('/img', express.static('img'))
 
 
 dotenv.config({ path: "config.env"});
 const PORT = process.env.PORT || 5000;
 
 // Routes  
-app.use("/", require("../API/server/routes/router"));
+app.use("/", require("../API/server/routes/SuperAdminRoutes/router"));
+app.use("/house", require("./server/routes/SuperAdminRoutes/house.router"));
 
 app.listen(PORT, () =>{
     console.log(`server Running http://localhost:${PORT}`);
