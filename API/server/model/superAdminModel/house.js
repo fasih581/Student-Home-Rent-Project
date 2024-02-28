@@ -1,21 +1,23 @@
 const mongoose = require("mongoose");
 
-const location = require("./location.modal");
-
 const houseSchema = new mongoose.Schema({
   image: [
     {
       type: String,
-    }
+      required: [true, "image is required"],
+    },
   ],
   houseName: {
     type: String,
+    required: [true, "House Name is required"],
   },
   address: {
     type: String,
+    required: [true, "Address is required"],
   },
   category: {
     type: String,
+    required: [true, "Category is required"],
   },
   description: {
     type: String,
@@ -28,10 +30,12 @@ const houseSchema = new mongoose.Schema({
   },
   rate: {
     type: String,
+    required: [true, "Rate is required"],
   },
   location: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "location",
+    required: [true, "Location is required"],
   },
 });
 

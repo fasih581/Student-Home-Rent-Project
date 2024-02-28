@@ -1,10 +1,11 @@
 const asyncHandler = require("express-async-handler");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const cookieParser = require("cookie-parser");
+// const cookieParser = require("cookie-parser");
 
 const userModal = require("../model/user.modal");
 
+// POST: Signup user 
 exports.signupPost = asyncHandler(async (req, res) => {
   try {
     // get all data from body
@@ -50,6 +51,7 @@ exports.signupPost = asyncHandler(async (req, res) => {
   }
 });
 
+// POST: Login user 
 exports.loginPost = asyncHandler(async (req, res) => {
   try {
     // Get all data from frontend

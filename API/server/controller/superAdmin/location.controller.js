@@ -1,11 +1,11 @@
 const asyncHandler = require("express-async-handler");
 
-const location = require("../../model/superAdminModel/location.modal");
+const ControllerServices = require("../../services/SuperAdmin/locationService");
 
 // Get all locations
 exports.locationGetAll = asyncHandler(async (req, res) => {
   try {
-    const locations = await location.find();
+    const locations = await ControllerServices.locationGetAllService();
     res.json(locations);
   } catch (error) {
     console.error(error);
@@ -15,15 +15,39 @@ exports.locationGetAll = asyncHandler(async (req, res) => {
 
 // Get a single location by ID
 exports.locationGetId = asyncHandler(async (req, res) => {
-  const id = req.params.id;
-
   try {
-    const Location = await location.findById(id);
+    const locationId = req.params.id;
+
+    const Location = await ControllerServices.locationGetIdService(locationId);
 
     if (!Location) {
       return res.status(404).send("Location not found");
     }
-    res.json(Location);
+    res.status(200).json(Location);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error fetching location");
+  }
+});
+
+// Get a single location and house details by ID
+exports.locationAndProduct = asyncHandler(async (req, res) => {
+  try {
+    const locationId = req.params.id;
+
+    const Location = await ControllerServices.locationAndProductService(
+      locationId
+    );
+    if (!Location) {
+      return res.status(404).send("Location not found");
+    }
+
+    const house = await ControllerServices.locationAndProductService(
+      locationId
+    );
+
+    // res.status(200).json({ Location, house });
+    res.status(200).json(house);
   } catch (error) {
     console.error(error);
     res.status(500).send("Error fetching location");
@@ -45,12 +69,11 @@ exports.locationPost = asyncHandler(async (req, res) => {
     .map((coord) => parseFloat(coord.trim()));
 
   try {
-    const newLocation = new location({
+    const newLocation = await ControllerServices.locationPostService(
       name,
-      coordinates: [latitude, longitude],
-      image,
-    });
-    await newLocation.save();
+      [latitude, longitude],
+      image
+    );
     res.status(201).json(newLocation);
   } catch (error) {
     console.error(error);
@@ -62,44 +85,11 @@ exports.locationPost = asyncHandler(async (req, res) => {
 exports.locationupdate = asyncHandler(async (req, res) => {
   const id = req.params.id;
   try {
-    const locations = await location.findById(id);
-
-    if (!locations) {
-      return res.status(404).json({
-        error: true, 
-        message: "Location not found",
-      });
-    }
-
-    // Create an object to hold the updated data
-    const updatedData = {};
-
-    console.log("Request body:", req.body);
-    console.log("Request file:", req.file);
-    
-    // Check if image is being updated
-    if (req.file) {
-      updatedData.image = req.file.path; 
-      console.log("No file attached to the request.");
-    }
-    
-    // Check for other fields being updated
-    if (req.body.name) {
-      updatedData.name = req.body.name;
-    }
-    
-    if (req.body.coordinates) {
-      const [latitude, longitude] = req.body.coordinates.split(',').map(Number);
-      updatedData.coordinates = [latitude, longitude];
-    }
-
-    const updatedLocation = await location.findByIdAndUpdate(
-      req.params.id,
-      updatedData,
-      { new: true }
+    const updatedLocation = await ControllerServices.locationupdateService(
+      id,
+      req.body,
+      req.file
     );
-
-    console.log("Updated data:", updatedLocation);
     res.status(200).json(updatedLocation);
   } catch (error) {
     console.error("Error updating location:", error);
@@ -114,13 +104,13 @@ exports.locationupdate = asyncHandler(async (req, res) => {
 exports.locationDelete = asyncHandler(async (req, res) => {
   try {
     const { id } = req.params;
-    const deletedLocation = await location.findByIdAndDelete(id);
+    const deletedLocation = await ControllerServices.locationDeleteService(id);
 
     if (!deletedLocation) {
       return res.status(404).send("Location not found");
     }
 
-    res.status(204).send("Location deleted successfully");
+    res.status(201).send("Location deleted successfully");
   } catch (error) {
     console.error(error);
     res.status(500).send("Error deleting location");
