@@ -32,6 +32,7 @@ const PORT = process.env.PORT || 5000;
 // Routes  
 app.use("/", require("../API/server/routes/SuperAdminRoutes/router"));
 app.use("/house", require("./server/routes/SuperAdminRoutes/house.router"));
+app.use("/whislist", require("./server/routes/cart.router"));
 
 app.listen(PORT, () =>{
     console.log(`server Running http://localhost:${PORT}`);
