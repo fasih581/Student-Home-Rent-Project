@@ -1,21 +1,37 @@
 const asyncHandler = require("express-async-handler");
+const { default: mongoose } = require("mongoose");
 
 const cartModal = require("../model/Cart.modal");
-const userModal = require("../model/user.modal");
-// const homeModal = require("../model/superAdminModel/house");
 
 // Get: get the single user cart details
 exports.getCartById = asyncHandler(async (req, res) => {
   try {
     const id = req.params.id;
+    const userId = new mongoose.Types.ObjectId(id);
 
-    const wishList = await cartModal.findById(id);
+    const CartByIdAggregate = await cartModal.aggregate([
+      {
+        $match: { userId: userId },
+      },
+      // {
+      //   $unwind: "$favHome",
+      // },
+      {
+        $lookup: {
+          from: "homedetails",
+          localField: "favHome._id",
+          foreignField: "_id",
+          as: "homeDetails",
+        },
+      },
+    ]);
 
-    if (!wishList) {
-      return res.status(404).send("wish list details not found");
+    if(CartByIdAggregate.length == 0){
+      return res.status(404).send("User Not Found")
     }
-    res.status(201).json(wishList);
-    
+
+    res.status(200).json(CartByIdAggregate);
+
   } catch (error) {
     console.error("Error getting home to wishlist:", error);
     res.status(500).json({ message: "Internal server error" });
@@ -36,9 +52,7 @@ exports.postCart = asyncHandler(async (req, res) => {
     }
 
     // Check if the product is already in the wishlist
-    const isHomeExists = cart.favHome.find((item) =>
-      item?.equals(homeId)
-    );
+    const isHomeExists = cart.favHome.find((item) => item?.equals(homeId));
 
     if (isHomeExists) {
       return res.status(400).json({
@@ -82,4 +96,3 @@ exports.updateCart = asyncHandler(async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 });
-

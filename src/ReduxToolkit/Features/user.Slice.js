@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 // signup User
 export const createUser = createAsyncThunk("createContact", async (data) => {
@@ -17,6 +18,7 @@ export const LoginUser = createAsyncThunk("LoginUser", async (data) => {
   console.log("Request login Payload:", data);
   try {
     const response = await axios.post("http://localhost:8080/login", data);
+    Cookies.set('userId', response.data.userId);
     console.log("response login data:", response);
     return response.data;
   } catch (error) {
