@@ -1,0 +1,51 @@
+.headerBox {
+  background-color: #fff;
+  height: 77px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.box {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Search Page */
+
+.searchBox h4 {
+  margin: 50px 0;
+}
+
+.searchBox {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.cards {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.card {
+  border-radius: 20px;
+  border: 3px solid #d9d9d9;
+  padding: 10px 10px;
+  width: 900px;
+}
+
+.Imgcard{
+position: relative;
+}
+
+.Imgcard img {
+  border-radius: 20px;
+  height: 180px;
+}
+
+.ImgIcon {
+    font-size: 25px;
+    color: red;
+    position: absolute;
+    left: 310px;
+    top: 10px;
+}

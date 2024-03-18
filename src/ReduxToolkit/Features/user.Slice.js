@@ -18,7 +18,10 @@ export const LoginUser = createAsyncThunk("LoginUser", async (data) => {
   console.log("Request login Payload:", data);
   try {
     const response = await axios.post("http://localhost:8080/login", data);
-    Cookies.set('userId', response.data.userId);
+    
+    const userId = response.data.userId;
+    localStorage.setItem("userId", userId);
+
     console.log("response login data:", response);
     return response.data;
   } catch (error) {

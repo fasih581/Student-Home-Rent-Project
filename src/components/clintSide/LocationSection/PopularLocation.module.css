@@ -1,0 +1,53 @@
+/* @import "~slick-carousel/slick/slick.css";
+@import "~slick-carousel/slick/slick-theme.css"; */
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+.header {
+  margin-top: 50px;
+}
+
+.header h2 {
+  font-weight: 600;
+  margin: 0;
+  padding: 0;
+}
+
+.cardBox {
+  margin-bottom: 50px;
+  display: flex;
+  gap: 20px;
+}
+
+.card {
+  width: 300px !important;
+  height: 300px;
+  position: relative;
+  display: flex !important;
+  justify-content: center;
+  outline: none;
+}
+
+.card img {
+  width: 300px;
+  height: 300px;
+  border-radius: 20px;
+}
+
+.card button {
+  position: absolute;
+  bottom: 10px;
+  width: 250px;
+}
+
+.cardSlider{
+  width: 1300px;
+}

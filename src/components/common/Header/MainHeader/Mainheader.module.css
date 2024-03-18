@@ -6,7 +6,7 @@
   justify-content: space-between;
 }
 
-h3.heading{
+h3.homeHeading{
   font-weight: 800;
   color: #fff;
 }
@@ -21,18 +21,18 @@ h3.heading{
   gap: 30px;
 }
 
-.navPage {
+.homeNavPage {
   display: flex;
   gap: 10px;
   align-items: center;
 }
 
-.navPage p {
+.homeNavPage p {
   margin: 0;
   font-size: 15px;
   color: #fff;
 }
-.navPage span {
+.homeNavPage span {
   font-size: 15px;
   color: #fff;
 }
@@ -49,6 +49,34 @@ button.btn{
     align-items: center;
     border-radius: 15px;
     border: none;
+}
+
+/* Other Pages */
+
+h3.heading{
+  font-weight: 800;
+  color: black;
+}
+
+.navPage {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.search{
+  width: 650px;
+  height: 50px;
+}
+
+.navPage p {
+  margin: 0;
+  font-size: 15px;
+  color: black;
+}
+.navPage span {
+  font-size: 15px;
+  color: black;
 }
 
 

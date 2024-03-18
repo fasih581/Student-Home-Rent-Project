@@ -11,6 +11,7 @@ app.use(cros());
 
 // Parse JSON bodies for this app
 app.use(express.json());
+app.use(express.static('public'));
 
 // MongoDB Connection
 connectmongo();
@@ -33,6 +34,7 @@ const PORT = process.env.PORT || 5000;
 app.use("/", require("../API/server/routes/SuperAdminRoutes/router"));
 app.use("/house", require("./server/routes/SuperAdminRoutes/house.router"));
 app.use("/whislist", require("./server/routes/cart.router"));
+app.use("/create-checkout-session", require("./server/routes/stripe.router"));
 
 app.listen(PORT, () =>{
     console.log(`server Running http://localhost:${PORT}`);
