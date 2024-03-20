@@ -1,33 +1,51 @@
 const asyncHandler = require("express-async-handler");
+const { default: mongoose } = require("mongoose");
 
-const ControllerServices = require("../../services/SuperAdmin/houseService");
+const Services = require("../../services/SuperAdmin/houseService");
 
 // GET:ID : Get the single data with id
 exports.getIdHouse = asyncHandler(async (req, res) => {
   const id = req.params.id;
   try {
-    const houseDetailsId = await ControllerServices.getIdHouseService(id);
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).send("Invalid ObjectId");
+    }
+    
+    const houseDetailsId = await Services.getIdHouseService(id);
 
     if (!houseDetailsId) {
       return res.status(404).send("House details not found");
     }
-    res.status(201).json(houseDetailsId);
+
+    res.status(200).json(houseDetailsId);
   } catch (error) {
     console.error(error);
-    res.status(500).send("Error Geting House details");
+    res.status(500).send("Error Getting House details");
   }
 });
 
 // GET: Get the all data from the mongodb
 exports.getAllHouse = asyncHandler(async (req, res) => {
   try {
-    const houseDetails = await ControllerServices.getAllHouseService();
+    const houseDetails = await Services.getAllHouseService();
     res.status(201).json(houseDetails);
   } catch (error) {
     console.error(error);
     res.status(500).send("Error geting data");
   }
 });
+
+// GET: Get the Popular Room
+exports.getPopularRoom = asyncHandler(async (req, res) => {
+  try {
+    const houseDetails = await Services.getPopularRoomService();
+    res.status(200).json(houseDetails);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error geting Popural Room data");
+  }
+});
+
 
 // POST: POST DATA IN HOUSE MODEL IN MONGODB
 exports.housePost = asyncHandler(async (req, res) => {
@@ -40,12 +58,13 @@ exports.housePost = asyncHandler(async (req, res) => {
     bill,
     rate,
     location,
+    popularRoom,
   } = req.body;
 
   const images = req.files ? req.files.map((file) => file.path) : null;
 
   try {
-    const saveData = await ControllerServices.housePostService({
+    const saveData = await Services.housePostService({
       image: images,
       houseName,
       address,
@@ -55,6 +74,7 @@ exports.housePost = asyncHandler(async (req, res) => {
       bill,
       rate,
       location,
+      popularRoom,
     });
 
     res.status(200).json(saveData);
@@ -75,7 +95,7 @@ exports.houseUpdate = asyncHandler(async (req, res) => {
       image = req.files;
     }
 
-    const houseDataUpdate = await ControllerServices.houseUpdateService(
+    const houseDataUpdate = await Services.houseUpdateService(
       id,
       req.body,
       image
@@ -92,7 +112,7 @@ exports.houseUpdate = asyncHandler(async (req, res) => {
 exports.deleteHouse = asyncHandler(async (req, res) => {
   const id = req.params.id;
   try {
-    const houseDelete = await ControllerServices.deleteHouseService(id);
+    const houseDelete = await Services.deleteHouseService(id);
     if (!houseDelete) {
       return res.status(404).send("House details not found");
     }

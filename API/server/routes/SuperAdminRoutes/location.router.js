@@ -3,12 +3,7 @@ const route = express.Router();
 const multer = require("multer");
 const upload = require("../../Multer/upload")
 
-const loginController = require("../../controller/user.contoller")
 const locationController = require("../../controller/superAdmin/location.controller")
-
-// user login and signup API
-route.post("/signup", loginController.signupPost)
-route.post("/login", loginController.loginPost)
 
 // location API
 route.get("/location", locationController.locationGetAll)

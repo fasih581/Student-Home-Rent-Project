@@ -5,8 +5,10 @@ const upload = require("../../Multer/upload");
 
 const houseController = require("../../controller/superAdmin/house.controller");
 
-route.get("/", houseController.getAllHouse);
+route.get("/popular", houseController.getPopularRoom);
 route.get("/:id", houseController.getIdHouse);
+route.get("/", houseController.getAllHouse);
+
 route.post(
   "/",
   multer({ storage: upload }).array("image", 5),

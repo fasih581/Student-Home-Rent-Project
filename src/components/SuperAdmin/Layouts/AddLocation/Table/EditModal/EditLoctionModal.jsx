@@ -48,41 +48,6 @@ const EditLoctionModal = ({ contactId, editModalClose }) => {
     enableReinitialize: true,
   });
 
-  // const formSubmit = async (data, actions) => {
-  //   try {
-  //     const formData = new FormData();
-  //     formData.append("name", data.name);
-  //     formData.append("coordinates", data.coordinates);
-  //     formData.append("image", file);
-  //     await dispatch(updateLocation(formData));
-  //     editModalClose();
-  //     dispatch(getData());
-  //     toast.success("Location Updated successfully!");
-  //   } catch (error) {
-  //     console.error("Error occurred while updating location:", error);
-  //     toast.error("Error updating location. Please try again.");
-  //   }
-  // };
-
-  // function handleImgChange(e) {
-  //   const selectedFile = e.target.files[0];
-  //   setFile(selectedFile);
-  //   Editlocation.setFieldValue("image", selectedFile);
-  //   setImgPreview(URL.createObjectURL(selectedFile));
-  // }
-
-  // function handleImgChange(e) {
-  //   const selectedFile = e.target.files[0];
-  //   setFile(selectedFile);
-  //   Editlocation.setFieldValue("image", selectedFile);
-
-  //   if (selectedFile) {
-  //     setImgPreview(URL.createObjectURL(selectedFile));
-  //   } else {
-  //     setImgPreview(null); // Reset image preview if no file selected
-  //   }
-  // }
-
   const formSubmit = async (data, actions) => {
     try {
       const formData = new FormData();
@@ -115,7 +80,7 @@ const EditLoctionModal = ({ contactId, editModalClose }) => {
       };
       reader.readAsDataURL(selectedFile);
     } else {
-      setImgPreview(null); // Reset image preview if no file selected
+      setImgPreview(null);
     }
   }
   

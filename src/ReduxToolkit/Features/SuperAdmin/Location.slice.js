@@ -25,10 +25,40 @@ export const getData = createAsyncThunk("getData", async () => {
   }
 });
 
+// GET:Get a single location and house details by ID
+export const getLocationHouse = createAsyncThunk(
+  "getLocationHouse",
+  async (id, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(`http://localhost:8080/location/product/${id}`);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+// export const getLocationHouse = createAsyncThunk(
+//   "getLocationHouse",
+//   async (id) => {
+//     try {
+//       console.log("Received location and Product ID:", id);
+//       const response = await axios.get(`http://localhost:8080/location/product/${id}`);
+//       console.log("API Response:", response.data);
+
+//       return response.data;
+//     } catch (error) {
+//       throw error;
+//     }
+//   }
+// );
+
+
+
 // GET:Id Single contact
 export const getDataById = createAsyncThunk("getDataById", async ({ id }) => {
   try {
-    console.log("Received ID:", id);
+    console.log("Received Single Data ID:", id);
     const response = await axios.get(`http://localhost:8080/location/${id}`);
     console.log("API Response:", response.data);
 
@@ -58,7 +88,9 @@ export const updateLocation = createAsyncThunk(
 // delete contact
 export const deleteContact = createAsyncThunk("deleteContact", async (id) => {
   try {
-    const response = await axios.delete(`http://localhost:8080/location/${id}`);
+    const response = await axios.delete(
+      `http://localhost:8080/location/product/${id}`
+    );
     console.log(response.data);
     return id;
   } catch (error) {
@@ -70,6 +102,7 @@ const locationSlice = createSlice({
   name: "location",
   initialState: {
     data: [],
+    house: [],
     isLoading: false,
     error: null,
   },
@@ -92,7 +125,39 @@ const locationSlice = createSlice({
     // GET:Id Single Contact
     builder.addCase(getDataById.fulfilled, (state) => {
       state.isLoading = false;
+      state.error = action.error.message;
     });
+
+    // GET Location and house
+
+    builder
+      .addCase(getLocationHouse.pending, (state) => {
+        state.isLoading = true;
+        state.error = null; 
+      })
+      .addCase(getLocationHouse.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.house = action.payload;
+        {console.log("ssttttttt", state.house);}
+        state.error = null; 
+      })
+      .addCase(getLocationHouse.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload || "Error fetching data"; 
+      });
+
+    // builder
+    //   .addCase(getLocationHouse.pending, (state) => {
+    //     state.isLoading = true;
+    //   })
+    //   .addCase(getLocationHouse.fulfilled, (state, action) => {
+    //     state.isLoading = false;
+    //     state.house = action.payload;
+    //   })
+    //   .addCase(getLocationHouse.rejected, (state, action) => {
+    //     state.isLoading = false;
+    //     state.error = action.error.message;
+    //   });
 
     // post data
     builder

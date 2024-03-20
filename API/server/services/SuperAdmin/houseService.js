@@ -1,16 +1,25 @@
 const asyncHandler = require("express-async-handler");
+const { default: mongoose } = require("mongoose");
 
 const houseModel = require("../../model/superAdminModel/house");
 
 // GET:ID : Get the single data with id
-const getIdHouseService = asyncHandler(async (id, res) => {
+const getIdHouseService = asyncHandler(async (id) => {
   try {
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      throw new Error("Invalid ObjectId");
+    }
+    
     const houseDetailsId = await houseModel.findById(id);
+    
+    if (!houseDetailsId) {
+      throw new Error("House details not found");
+    }
 
     return houseDetailsId;
   } catch (error) {
     console.error(error);
-    res.status(500).send("Error Geting House details");
+    throw new Error("Error Getting House details");
   }
 });
 
@@ -25,6 +34,23 @@ const getAllHouseService = asyncHandler(async (res) => {
   }
 });
 
+// // GET: Get the popular Rooms
+const getPopularRoomService = asyncHandler(async () => {
+  try {
+    const popularRooms = await houseModel.aggregate([
+      {
+        $match: {
+          popularRoom: true
+        }
+      },
+    ]);
+    return popularRooms;
+  } catch (error) {
+    console.error(error);
+    throw new Error("Error getting Popular Room data");
+  }
+});
+
 // POST: POST DATA IN HOUSE MODEL IN MONGODB
 const housePostService = asyncHandler(async (houseData) => {
   // console.log("hheeloooo",houseData);
@@ -33,7 +59,6 @@ const housePostService = asyncHandler(async (houseData) => {
     const data = new houseModel(houseData);
     const saveData = await data.save();
     return saveData;
-
   } catch (error) {
     throw error;
   }
@@ -81,7 +106,10 @@ const houseUpdateService = asyncHandler(async (id, requestBody, image, res) => {
 
     if (image && image.length > 0) {
       updatedData.image = image.map((file) => file.path);
-      console.log("Files attached to the request:", image.map(file => file.path));
+      console.log(
+        "Files attached to the request:",
+        image.map((file) => file.path)
+      );
     } else {
       console.log("No file attached to the request.");
     }
@@ -94,7 +122,6 @@ const houseUpdateService = asyncHandler(async (id, requestBody, image, res) => {
     // console.log("Updated data:", houseDataUpdate);
 
     return houseDataUpdate;
-
   } catch (error) {
     console.error(error);
     res.status(500).send("Error Update the house details");
@@ -106,8 +133,7 @@ const deleteHouseService = asyncHandler(async (id, res) => {
   try {
     const houseDelete = await houseModel.findByIdAndDelete(id);
 
-  return houseDelete;
-
+    return houseDelete;
   } catch (error) {
     console.error(error);
     res.status(500).send("Error to delete house the database");
@@ -119,5 +145,6 @@ module.exports = {
   getAllHouseService,
   housePostService,
   houseUpdateService,
-  deleteHouseService
+  deleteHouseService,
+  getPopularRoomService,
 };

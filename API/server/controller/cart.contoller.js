@@ -13,9 +13,6 @@ exports.getCartById = asyncHandler(async (req, res) => {
       {
         $match: { userId: userId },
       },
-      // {
-      //   $unwind: "$favHome",
-      // },
       {
         $lookup: {
           from: "homedetails",

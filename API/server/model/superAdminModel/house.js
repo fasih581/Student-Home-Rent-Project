@@ -7,6 +7,10 @@ const houseSchema = new mongoose.Schema({
       required: [true, "image is required"],
     },
   ],
+  popularRoom: {
+    type: Boolean,
+    default: false,
+  },
   houseName: {
     type: String,
     required: [true, "House Name is required"],

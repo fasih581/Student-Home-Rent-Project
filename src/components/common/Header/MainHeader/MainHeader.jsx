@@ -21,7 +21,7 @@ const MainHeader = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [searchId, setSearchId] = useState(null);
+  // const [searchId, setSearchId] = useState(null);
   // console.log("header searchIDDD", searchId);
 
   const { data } = useSelector((state) => state.location);
@@ -138,7 +138,6 @@ const MainHeader = () => {
       ) : (
         <div className={Css.navHeader}>
           <div className={Css.navBtn}>
-            <div className={Css.btn}></div>
             <div className={Css.btnHead}>
               <Button
                 className={Css.btn}

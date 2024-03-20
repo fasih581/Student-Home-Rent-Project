@@ -31,7 +31,8 @@ dotenv.config({ path: "config.env"});
 const PORT = process.env.PORT || 5000;
 
 // Routes  
-app.use("/", require("../API/server/routes/SuperAdminRoutes/router"));
+app.use("/", require("../API/server/routes/user.router"));
+app.use("/", require("../API/server/routes/SuperAdminRoutes/location.router"));
 app.use("/house", require("./server/routes/SuperAdminRoutes/house.router"));
 app.use("/whislist", require("./server/routes/cart.router"));
 app.use("/create-checkout-session", require("./server/routes/stripe.router"));
