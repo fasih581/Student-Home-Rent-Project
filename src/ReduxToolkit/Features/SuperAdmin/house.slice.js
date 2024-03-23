@@ -28,9 +28,10 @@ export const getHouse = createAsyncThunk("getHouse", async () => {
 // GET:Id Single contact
 export const getHouseById = createAsyncThunk("getHouseById", async ({ id }) => {
   try {
-    console.log("Received ID:", id);
+    console.log("Received Single ID:", id);
     const response = await axios.get(`http://localhost:8080/house/${id}`);
-    console.log("API Response:", response.data);
+    console.log("API Single Id Response:", response.data);
+    console.log("Image Single Id Response:", response.data.image);
 
     return response.data;
   } catch (error) {

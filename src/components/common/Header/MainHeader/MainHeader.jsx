@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Css from "./Mainheader.module.css";
 import Search from "../../../clintSide/SearchPage/SearchPage.jsx";
 
-import { FaPhoneAlt, FaRegHeart, FaDownload } from "react-icons/fa";
+import { FaPhoneAlt, FaRegHeart, FaDownload, FaHeart } from "react-icons/fa";
 import { CgProfile } from "react-icons/cg";
 import { IoMdLogIn } from "react-icons/io";
 
@@ -30,6 +30,10 @@ const MainHeader = () => {
 
   const loginPath = () => {
     navigate("/login");
+  };
+
+  const wishList = () => {
+    navigate(`/wish-list/${userId}`);
   };
 
   useEffect(() => {
@@ -80,7 +84,7 @@ const MainHeader = () => {
                   </span>
                   <p>Contact</p>
                 </div>
-                <div className={Css.homeNavPage}>
+                <div className={Css.homeNavPage} onClick={wishList}>
                   <span>
                     <FaRegHeart />
                   </span>
@@ -101,12 +105,21 @@ const MainHeader = () => {
                   </span>
                   <p>Contact</p>
                 </div>
-                <div className={Css.navPage}>
-                  <span>
-                    <FaRegHeart />
-                  </span>
-                  <p>Wishlist</p>
-                </div>
+                {window.location.pathname === `/wish-list/${userId}` ? (
+                  <div className={Css.navWishList} onClick={wishList}>
+                    <span>
+                      <FaHeart />
+                    </span>
+                    <p>Wishlist</p>
+                  </div>
+                ) : (
+                  <div className={Css.navPage} onClick={wishList}>
+                    <span>
+                      <FaRegHeart />
+                    </span>
+                    <p>Wishlist</p>
+                  </div>
+                )}
               </>
             )}
           </div>

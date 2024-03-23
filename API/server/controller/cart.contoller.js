@@ -41,7 +41,7 @@ exports.postCart = asyncHandler(async (req, res) => {
     const { userId, homeId } = req.body;
 
     let cart = await cartModal.findOne({ userId });
-    console.log("userid cart", cart);
+    // console.log("userid cart", cart);
 
     // If the cart doesn't exist, create it
     if (!cart) {

@@ -3,7 +3,7 @@ import axios from "axios";
 
 // POST: post the Location
 export const addLocation = createAsyncThunk("addLocation", async (data) => {
-  console.log("Request Payload:", data);
+  // console.log("Request Payload:", data);
   try {
     const response = await axios.post("http://localhost:8080/location", data);
     return response.data;
@@ -17,7 +17,7 @@ export const addLocation = createAsyncThunk("addLocation", async (data) => {
 export const getData = createAsyncThunk("getData", async () => {
   try {
     const response = await axios.get("http://localhost:8080/location");
-    console.log("API data", response.data);
+    // console.log("API data", response.data);
     return response.data;
   } catch (error) {
     console.error("Error", error);
@@ -38,29 +38,12 @@ export const getLocationHouse = createAsyncThunk(
   }
 );
 
-// export const getLocationHouse = createAsyncThunk(
-//   "getLocationHouse",
-//   async (id) => {
-//     try {
-//       console.log("Received location and Product ID:", id);
-//       const response = await axios.get(`http://localhost:8080/location/product/${id}`);
-//       console.log("API Response:", response.data);
-
-//       return response.data;
-//     } catch (error) {
-//       throw error;
-//     }
-//   }
-// );
-
-
-
 // GET:Id Single contact
 export const getDataById = createAsyncThunk("getDataById", async ({ id }) => {
   try {
-    console.log("Received Single Data ID:", id);
+    // console.log("Received Single Data ID:", id);
     const response = await axios.get(`http://localhost:8080/location/${id}`);
-    console.log("API Response:", response.data);
+    // console.log("API Response:", response.data);
 
     return response.data;
   } catch (error) {
@@ -77,7 +60,7 @@ export const updateLocation = createAsyncThunk(
         `http://localhost:8080/location/${id}`, // Make sure the ID is properly passed here
         data
       );
-      console.log("edit", response.data);
+      // console.log("edit", response.data);
       return response.data;
     } catch (error) {
       throw error;
@@ -138,26 +121,12 @@ const locationSlice = createSlice({
       .addCase(getLocationHouse.fulfilled, (state, action) => {
         state.isLoading = false;
         state.house = action.payload;
-        {console.log("ssttttttt", state.house);}
         state.error = null; 
       })
       .addCase(getLocationHouse.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload || "Error fetching data"; 
       });
-
-    // builder
-    //   .addCase(getLocationHouse.pending, (state) => {
-    //     state.isLoading = true;
-    //   })
-    //   .addCase(getLocationHouse.fulfilled, (state, action) => {
-    //     state.isLoading = false;
-    //     state.house = action.payload;
-    //   })
-    //   .addCase(getLocationHouse.rejected, (state, action) => {
-    //     state.isLoading = false;
-    //     state.error = action.error.message;
-    //   });
 
     // post data
     builder

@@ -7,6 +7,8 @@ import SuperAdDashbord from "../SuperAdmin/DashBord/Dashbord";
 import Location from "../SuperAdmin/Layouts/AddLocation/AddLocation";
 import House from "../SuperAdmin/Layouts/House/House";
 import SearchPage from "../clintSide/SearchPage/SearchPage";
+import ClintHomeDetailPage from "../clintSide/HomeDetailsPage/HomePage";
+import WishList from "../common/Header/WishList/WishList";
 
 const MainRouter = () => {
   return (
@@ -15,7 +17,8 @@ const MainRouter = () => {
         <Route path="/signup" element={<Signup />} />
         <Route path="/" element={<ClintSide />} />
         <Route path="/search/:id" element={<SearchPage />} />
-
+        <Route path="/home-Detail/:id" element={<ClintHomeDetailPage />} />
+        <Route path="/wish-list/:id" element={<WishList />} />
 
         <Route path="/SuperAdD" element={<SuperAdDashbord />} />
         <Route path="/location" element={<Location />} />

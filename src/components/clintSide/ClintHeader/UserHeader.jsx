@@ -39,7 +39,6 @@ const UserHeader = () => {
             onChange={(selectedOption) => {
               if (selectedOption) {
                 const id = selectedOption.value;
-                // navigate("/search", { state: { id: selectedOption.value } });
                 navigate(`/search/${id}`);
               }
             }}

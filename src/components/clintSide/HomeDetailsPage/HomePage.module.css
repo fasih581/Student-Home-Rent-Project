@@ -1,0 +1,67 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.headerBox {
+  background-color: #fff;
+  height: 77px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.box {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.home_page {
+  margin-top: 50px;
+}
+
+.home {
+  display: flex;
+  gap: 20px;
+}
+
+.home_Box {
+  border: 2px solid #d9d9d9;
+  border-radius: 20px;
+  padding: 10px;
+  width: 1080px;
+}
+
+.booking_Box {
+  border: 2px solid #d9d9d9;
+  border-radius: 20px;
+  padding: 10px;
+  width: 300px;
+}
+
+/* Image Box */
+.image_Box {
+  height: 550px;
+  display: flex;
+  gap: 15px;
+}
+
+.image_Main img {
+  width: 620px;
+  border-radius: 20px;
+  height: 550px;
+}
+
+.images {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.images img {
+  width: 420px;
+  border-radius: 20px;
+  height: 173px;
+}
+
+.homeDetails_Box {
+  margin-top: 20px;
+}
