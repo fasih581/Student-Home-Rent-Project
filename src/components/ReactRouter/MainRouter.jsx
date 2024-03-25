@@ -10,6 +10,9 @@ import SearchPage from "../clintSide/SearchPage/SearchPage";
 import ClintHomeDetailPage from "../clintSide/HomeDetailsPage/HomePage";
 import WishList from "../common/Header/WishList/WishList";
 
+import Cancel from "../clintSide/Booking/Cancel/Cancel";
+import Success from "../clintSide/Booking/Success/Success";
+
 const MainRouter = () => {
   return (
     <Routes>
@@ -19,6 +22,9 @@ const MainRouter = () => {
         <Route path="/search/:id" element={<SearchPage />} />
         <Route path="/home-Detail/:id" element={<ClintHomeDetailPage />} />
         <Route path="/wish-list/:id" element={<WishList />} />
+
+        <Route path="/cancel" element={<Cancel />} />
+        <Route path="/success" element={<Success />} />
 
         <Route path="/SuperAdD" element={<SuperAdDashbord />} />
         <Route path="/location" element={<Location />} />

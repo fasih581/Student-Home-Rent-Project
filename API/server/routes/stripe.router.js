@@ -6,6 +6,6 @@ const route = express.Router();
 const StripeController = require("../controller/stripe.controller")
 
 // Stripe API
-route.post("/", StripeController.StripePost );
+route.post("/create_checkout_session", StripeController.StripePost );
 
 module.exports = route;

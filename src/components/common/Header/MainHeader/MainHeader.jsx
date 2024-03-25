@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Css from "./Mainheader.module.css";
 import Search from "../../../clintSide/SearchPage/SearchPage.jsx";
 
-import { FaPhoneAlt, FaRegHeart, FaDownload, FaHeart } from "react-icons/fa";
+import { FaHome, FaPhoneAlt, FaRegHeart, FaDownload, FaHeart } from "react-icons/fa";
 import { CgProfile } from "react-icons/cg";
 import { IoMdLogIn } from "react-icons/io";
 
@@ -34,6 +34,10 @@ const MainHeader = () => {
 
   const wishList = () => {
     navigate(`/wish-list/${userId}`);
+  };
+
+  const homePage = () => {
+    navigate("/");
   };
 
   useEffect(() => {
@@ -74,12 +78,6 @@ const MainHeader = () => {
               <>
                 <div className={Css.homeNavPage}>
                   <span>
-                    <FaDownload />
-                  </span>
-                  <p>Download</p>
-                </div>
-                <div className={Css.homeNavPage}>
-                  <span>
                     <FaPhoneAlt />
                   </span>
                   <p>Contact</p>
@@ -93,11 +91,11 @@ const MainHeader = () => {
               </>
             ) : (
               <>
-                <div className={Css.navPage}>
+                <div className={Css.navPage} onClick={homePage}>
                   <span>
-                    <FaDownload />
+                    <FaHome />
                   </span>
-                  <p>Download</p>
+                  <p>Home</p>
                 </div>
                 <div className={Css.navPage}>
                   <span>

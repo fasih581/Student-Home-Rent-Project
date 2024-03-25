@@ -35,7 +35,7 @@ app.use("/", require("../API/server/routes/user.router"));
 app.use("/", require("../API/server/routes/SuperAdminRoutes/location.router"));
 app.use("/house", require("./server/routes/SuperAdminRoutes/house.router"));
 app.use("/whislist", require("./server/routes/cart.router"));
-app.use("/create-checkout-session", require("./server/routes/stripe.router"));
+app.use("/stripe", require("./server/routes/stripe.router"));
 
 app.listen(PORT, () =>{
     console.log(`server Running http://localhost:${PORT}`);

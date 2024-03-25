@@ -13,11 +13,11 @@ import axios from "axios";
 //   }
 // });
 
-// GET All  Location
+// GET: All Homes Data
 export const getHouse = createAsyncThunk("getHouse", async () => {
   try {
     const response = await axios.get("http://localhost:8080/house");
-    console.log("API data", response.data);
+    // console.log("API data", response.data);
     return response.data;
   } catch (error) {
     console.error("Error", error);
@@ -25,21 +25,19 @@ export const getHouse = createAsyncThunk("getHouse", async () => {
   }
 });
 
-// GET:Id Single contact
+// GET:Home Data With Single Id
 export const getHouseById = createAsyncThunk("getHouseById", async ({ id }) => {
   try {
-    console.log("Received Single ID:", id);
+    // console.log("Received Single ID:", id);
     const response = await axios.get(`http://localhost:8080/house/${id}`);
-    console.log("API Single Id Response:", response.data);
-    console.log("Image Single Id Response:", response.data.image);
-
+    // console.log("API Single Id Response:", response.data);
     return response.data;
   } catch (error) {
     throw error;
   }
 });
 
-// GET:Popular Rooms
+// GET:Home Popular Rooms
 export const getPopularRoom = createAsyncThunk("getPopularRoom", async () => {
   try {
     const response = await axios.get(`http://localhost:8080/house/popular`);
@@ -79,10 +77,34 @@ export const getPopularRoom = createAsyncThunk("getPopularRoom", async () => {
 //   }
 // });
 
+export const createCheckoutSession = createAsyncThunk(
+  "createCheckoutSession",
+  async ({ homeId, userId }) => {
+    try {
+      console.log("Received homeId and userId:", homeId, userId);
+      const response = await axios.post(
+        `http://localhost:8080/stripe/create_checkout_session`,{homeId, userId}
+      );
+      console.log("homeId:", homeId);
+      console.log("createCheckoutSession:", response.data);
+
+      if (response.data.url) {
+        window.location.href = response.data.url;
+      }
+
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+);
+
 const houseSlice = createSlice({
   name: "house",
   initialState: {
     data: [],
+    dataById: [],
+    status: "idle",
     isLoading: false,
     error: null,
   },
@@ -103,8 +125,12 @@ const houseSlice = createSlice({
       });
 
     // GET:Id Single Contact
-    builder.addCase(getHouseById.fulfilled, (state) => {
+    builder.addCase(getHouseById.fulfilled, (state, action) => {
       state.isLoading = false;
+      state.dataById = action.payload;
+      {
+        console.log("dataById", state.dataById);
+      }
     });
 
     // GET Popular Rooms
@@ -114,11 +140,26 @@ const houseSlice = createSlice({
       })
       .addCase(getPopularRoom.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.data = action.payload;
+        // state.data = action.payload;
       })
       .addCase(getPopularRoom.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.error.message;
+      });
+
+    // CheckOut
+    builder
+      .addCase(createCheckoutSession.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(createCheckoutSession.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.checkoutSessionId = action.payload;
+      })
+      .addCase(createCheckoutSession.rejected, (state, action) => {
+        state.status = "failed";
+        state.error =
+          action.error.message || "Failed to create checkout session";
       });
 
     // post data
