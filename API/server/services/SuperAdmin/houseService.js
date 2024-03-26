@@ -4,14 +4,14 @@ const { default: mongoose } = require("mongoose");
 const houseModel = require("../../model/superAdminModel/house");
 
 // GET:ID : Get the single data with id
-const getIdHouseService = asyncHandler(async (id) => {
+const getIdHouse = asyncHandler(async (id) => {
   try {
     if (!mongoose.Types.ObjectId.isValid(id)) {
       throw new Error("Invalid ObjectId");
     }
-    
+
     const houseDetailsId = await houseModel.findById(id);
-    
+
     if (!houseDetailsId) {
       throw new Error("House details not found");
     }
@@ -24,7 +24,7 @@ const getIdHouseService = asyncHandler(async (id) => {
 });
 
 // GET: Get the all data from the mongodb
-const getAllHouseService = asyncHandler(async (res) => {
+const getAllHouse = asyncHandler(async (res) => {
   try {
     const houseDetails = await houseModel.find();
     return houseDetails;
@@ -34,14 +34,14 @@ const getAllHouseService = asyncHandler(async (res) => {
   }
 });
 
-// // GET: Get the popular Rooms
-const getPopularRoomService = asyncHandler(async () => {
+// GET: Get the popular Rooms
+const getPopularRoom = asyncHandler(async () => {
   try {
     const popularRooms = await houseModel.aggregate([
       {
         $match: {
-          popularRoom: true
-        }
+          popularRoom: true,
+        },
       },
     ]);
     return popularRooms;
@@ -52,7 +52,7 @@ const getPopularRoomService = asyncHandler(async () => {
 });
 
 // POST: POST DATA IN HOUSE MODEL IN MONGODB
-const housePostService = asyncHandler(async (houseData) => {
+const housePost = asyncHandler(async (houseData) => {
   // console.log("hheeloooo",houseData);
 
   try {
@@ -65,7 +65,7 @@ const housePostService = asyncHandler(async (houseData) => {
 });
 
 // UPDATE DATA: Put Method
-const houseUpdateService = asyncHandler(async (id, requestBody, image, res) => {
+const houseUpdate = asyncHandler(async (id, requestBody, image, res) => {
   try {
     const houseGetId = await houseModel.findById(id);
 
@@ -129,7 +129,7 @@ const houseUpdateService = asyncHandler(async (id, requestBody, image, res) => {
 });
 
 // DELETE: delete the data from the house details database
-const deleteHouseService = asyncHandler(async (id, res) => {
+const deleteHouse = asyncHandler(async (id, res) => {
   try {
     const houseDelete = await houseModel.findByIdAndDelete(id);
 
@@ -141,10 +141,10 @@ const deleteHouseService = asyncHandler(async (id, res) => {
 });
 
 module.exports = {
-  getIdHouseService,
-  getAllHouseService,
-  housePostService,
-  houseUpdateService,
-  deleteHouseService,
-  getPopularRoomService,
+  getIdHouse,
+  getAllHouse,
+  housePost,
+  houseUpdate,
+  deleteHouse,
+  getPopularRoom,
 };

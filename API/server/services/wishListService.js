@@ -1,17 +1,16 @@
 const asyncHandler = require("express-async-handler");
 const { default: mongoose } = require("mongoose");
 
-const cartModal = require("../model/Cart.modal");
+const wishListModal = require("../model/Wish_List.modal");
 
 // Get: get the single user cart details
-exports.getCartById = asyncHandler(async (req, res) => {
+const getWhishListByUser = asyncHandler(async (userId) => {
   try {
-    const id = req.params.id;
-    const userId = new mongoose.Types.ObjectId(id);
+    const UserId = new mongoose.Types.ObjectId(userId);
 
-    const CartByIdAggregate = await cartModal.aggregate([
+    const CartByIdAggregate = await wishListModal.aggregate([
       {
-        $match: { userId: userId },
+        $match: { userId: UserId },
       },
       {
         $lookup: {
@@ -23,12 +22,7 @@ exports.getCartById = asyncHandler(async (req, res) => {
       },
     ]);
 
-    if(CartByIdAggregate.length == 0){
-      return res.status(404).send("User Not Found")
-    }
-
-    res.status(200).json(CartByIdAggregate);
-
+    return CartByIdAggregate;
   } catch (error) {
     console.error("Error getting home to wishlist:", error);
     res.status(500).json({ message: "Internal server error" });
@@ -36,16 +30,14 @@ exports.getCartById = asyncHandler(async (req, res) => {
 });
 
 // POST: create the user cart and his wish list
-exports.postCart = asyncHandler(async (req, res) => {
+const wishListPost = asyncHandler(async (res, userId, homeId) => {
   try {
-    const { userId, homeId } = req.body;
 
-    let cart = await cartModal.findOne({ userId });
-    // console.log("userid cart", cart);
+    let cart = await wishListModal.findOne({ userId });
 
     // If the cart doesn't exist, create it
     if (!cart) {
-      cart = new cartModal({ userId: userId, favHome: [] });
+      cart = new wishListModal({ userId: userId, favHome: [] });
     }
 
     // Check if the product is already in the wishlist
@@ -64,7 +56,7 @@ exports.postCart = asyncHandler(async (req, res) => {
     // Save the updated cart
     await cart.save();
 
-    res.status(200).json(cart);
+    return cart;
   } catch (error) {
     console.error("Error adding home to wishlist:", error);
     res.status(500).json({ message: "Internal server error" });
@@ -72,24 +64,30 @@ exports.postCart = asyncHandler(async (req, res) => {
 });
 
 // DELETE: Delete the homeId in the favhome array
-exports.updateCart = asyncHandler(async (req, res) => {
-  const { userId, productId } = req.params;
-  try {
-    let cart = await cartModal.findOne({ userId });
+const updateWishList = asyncHandler(async (res, userId, homeId ) => {
+    try {
+      let cart = await wishListModal.findOne({ userId });
+  
+      if (!cart) {
+        return res.status(404).json({ error: "Cart not found" });
+      }
+  
+      // Use pull to remove the homeId from the favHome array
+      cart.favHome.pull(homeId);
+  
+      // Save the updated cart
+      await cart.save();
+  
+      return cart ;
 
-    if (!cart) {
-      return res.status(404).json({ error: "Cart not found" });
+    } catch (error) {
+      console.error("Error updating cart:", error);
+      res.status(500).json({ message: "Internal server error" });
     }
+  });
 
-    // Use $pull to remove the productId from the favHome array
-    cart.favHome.pull(productId);
-
-    // Save the updated cart
-    await cart.save();
-
-    res.status(200).json({ cart });
-  } catch (error) {
-    console.error("Error updating cart:", error);
-    res.status(500).json({ message: "Internal server error" });
-  }
-});
+module.exports = {
+  getWhishListByUser,
+  wishListPost,
+  updateWishList
+};

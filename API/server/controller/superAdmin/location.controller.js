@@ -1,11 +1,11 @@
 const asyncHandler = require("express-async-handler");
 
-const ControllerServices = require("../../services/SuperAdmin/locationService");
+const Services = require("../../services/SuperAdmin/locationService");
 
 // Get all locations
 exports.locationGetAll = asyncHandler(async (req, res) => {
   try {
-    const locations = await ControllerServices.locationGetAllService();
+    const locations = await Services.locationGetAll();
     res.json(locations);
   } catch (error) {
     console.error(error);
@@ -18,7 +18,7 @@ exports.locationGetId = asyncHandler(async (req, res) => {
   try {
     const locationId = req.params.id;
 
-    const Location = await ControllerServices.locationGetIdService(locationId);
+    const Location = await Services.locationGetId(locationId);
 
     if (!Location) {
       return res.status(404).send("Location not found");
@@ -35,14 +35,14 @@ exports.locationAndProduct = asyncHandler(async (req, res) => {
   try {
     const locationId = req.params.id;
 
-    const Location = await ControllerServices.locationAndProductService(
+    const Location = await Services.locationAndProduct(
       locationId
     );
     if (!Location) {
       return res.status(404).send("Location not found");
     }
 
-    const house = await ControllerServices.locationAndProductService(
+    const house = await Services.locationAndProduct(
       locationId
     );
 
@@ -69,7 +69,7 @@ exports.locationPost = asyncHandler(async (req, res) => {
     .map((coord) => parseFloat(coord.trim()));
 
   try {
-    const newLocation = await ControllerServices.locationPostService(
+    const newLocation = await Services.locationPost(
       name,
       [latitude, longitude],
       image
@@ -82,10 +82,10 @@ exports.locationPost = asyncHandler(async (req, res) => {
 });
 
 // UPDATE DATA: Put Method
-exports.locationupdate = asyncHandler(async (req, res) => {
+exports.locationUpdate = asyncHandler(async (req, res) => {
   const id = req.params.id;
   try {
-    const updatedLocation = await ControllerServices.locationupdateService(
+    const updatedLocation = await Services.locationupdate(
       id,
       req.body,
       req.file
@@ -104,7 +104,7 @@ exports.locationupdate = asyncHandler(async (req, res) => {
 exports.locationDelete = asyncHandler(async (req, res) => {
   try {
     const { id } = req.params;
-    const deletedLocation = await ControllerServices.locationDeleteService(id);
+    const deletedLocation = await Services.locationDelete(id);
 
     if (!deletedLocation) {
       return res.status(404).send("Location not found");

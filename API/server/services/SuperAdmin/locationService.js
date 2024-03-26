@@ -4,7 +4,7 @@ const locationModel = require("../../model/superAdminModel/location.modal");
 const houseModel = require("../../model/superAdminModel/house");
 
 // Get all locations Services
-const locationGetAllService = asyncHandler(async (req, res) => {
+const locationGetAll = asyncHandler(async (req, res) => {
   try {
     const locations = await locationModel.find();
     return locations;
@@ -15,7 +15,7 @@ const locationGetAllService = asyncHandler(async (req, res) => {
 });
 
 // Get Single locations Services
-const locationGetIdService = asyncHandler(async (locationId, res) => {
+const locationGetId = asyncHandler(async (locationId, res) => {
   try {
     const Location = await locationModel.findById(locationId);
     return Location;
@@ -26,7 +26,7 @@ const locationGetIdService = asyncHandler(async (locationId, res) => {
 });
 
 // Get a single location and house details by ID
-const locationAndProductService = asyncHandler(async (locationId, res) => {
+const locationAndProduct = asyncHandler(async (locationId, res) => {
   try {
     const Location = await locationModel.findById(locationId);
 
@@ -41,7 +41,7 @@ const locationAndProductService = asyncHandler(async (locationId, res) => {
 });
 
 // POST: Create a new location
-const locationPostService = asyncHandler(
+const locationPost = asyncHandler(
   async (name, coordinates, image, res) => {
     try {
       const newLocation = new locationModel({
@@ -60,7 +60,7 @@ const locationPostService = asyncHandler(
 );
 
 // UPDATE DATA: Put Method
-const locationupdateService = async (id, requestBody, file) => {
+const locationupdate = async (id, requestBody, file) => {
   try {
     const locations = await locationModel.findById(id);
 
@@ -98,7 +98,7 @@ const locationupdateService = async (id, requestBody, file) => {
 };
 
 // Delete a location
-const locationDeleteService = asyncHandler(async (id, res) => {
+const locationDelete = asyncHandler(async (id, res) => {
   try {
     const deletedLocation = await locationModel.findByIdAndDelete(id);
 
@@ -110,10 +110,10 @@ const locationDeleteService = asyncHandler(async (id, res) => {
 });
 
 module.exports = {
-  locationGetAllService,
-  locationGetIdService,
-  locationAndProductService,
-  locationPostService,
-  locationupdateService,
-  locationDeleteService,
+  locationGetAll,
+  locationGetId,
+  locationAndProduct,
+  locationPost,
+  locationupdate,
+  locationDelete,
 };

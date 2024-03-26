@@ -10,8 +10,8 @@ exports.getIdHouse = asyncHandler(async (req, res) => {
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).send("Invalid ObjectId");
     }
-    
-    const houseDetailsId = await Services.getIdHouseService(id);
+
+    const houseDetailsId = await Services.getIdHouse(id);
 
     if (!houseDetailsId) {
       return res.status(404).send("House details not found");
@@ -38,14 +38,13 @@ exports.getAllHouse = asyncHandler(async (req, res) => {
 // GET: Get the Popular Room
 exports.getPopularRoom = asyncHandler(async (req, res) => {
   try {
-    const houseDetails = await Services.getPopularRoomService();
+    const houseDetails = await Services.getPopularRoom();
     res.status(200).json(houseDetails);
   } catch (error) {
     console.error(error);
     res.status(500).send("Error geting Popural Room data");
   }
 });
-
 
 // POST: POST DATA IN HOUSE MODEL IN MONGODB
 exports.housePost = asyncHandler(async (req, res) => {
@@ -64,7 +63,7 @@ exports.housePost = asyncHandler(async (req, res) => {
   const images = req.files ? req.files.map((file) => file.path) : null;
 
   try {
-    const saveData = await Services.housePostService({
+    const saveData = await Services.housePost({
       image: images,
       houseName,
       address,
@@ -95,11 +94,7 @@ exports.houseUpdate = asyncHandler(async (req, res) => {
       image = req.files;
     }
 
-    const houseDataUpdate = await Services.houseUpdateService(
-      id,
-      req.body,
-      image
-    );
+    const houseDataUpdate = await Services.houseUpdate(id, req.body, image);
     console.log("Updated data:", houseDataUpdate);
     res.status(200).json(houseDataUpdate);
   } catch (error) {
@@ -112,7 +107,7 @@ exports.houseUpdate = asyncHandler(async (req, res) => {
 exports.deleteHouse = asyncHandler(async (req, res) => {
   const id = req.params.id;
   try {
-    const houseDelete = await Services.deleteHouseService(id);
+    const houseDelete = await Services.deleteHouse(id);
     if (!houseDelete) {
       return res.status(404).send("House details not found");
     }

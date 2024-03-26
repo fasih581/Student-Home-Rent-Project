@@ -10,7 +10,7 @@ route.get("/location", locationController.locationGetAll)
 route.get("/location/:id", locationController.locationGetId)
 route.get("/location/product/:id", locationController.locationAndProduct)
 route.post("/location", multer({ storage: upload }).single('image'), locationController.locationPost);
-route.put("/location/:id", multer({ storage: upload }).single('image'),locationController.locationupdate)
+route.put("/location/:id", multer({ storage: upload }).single('image'),locationController.locationUpdate)
 route.delete("/location/:id", locationController.locationDelete)
 
 module.exports = route;
