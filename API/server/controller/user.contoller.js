@@ -75,8 +75,6 @@ exports.loginPost = asyncHandler(async (req, res) => {
       return res.status(401).send("User not found");
     }
 
-    // assignment - if user is not there, then what ?
-
     // match the password
     if (user && (await bcrypt.compare(password, user.password))) {
       const token = jwt.sign(
@@ -88,19 +86,6 @@ exports.loginPost = asyncHandler(async (req, res) => {
       );
       user.token = token;
       user.password = undefined;
-
-      // send a token user cookie
-      // cookie section
-      // const options = {
-      //   expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
-      //   httpOnly: true,
-      //   withCredentials: true,
-      // };
-      // res.status(200).cookie("token", token, options).json({
-      //   success: true,
-      //   token,
-      //   user,
-      // });
 
       res.cookie("userToken", token, {
         httpOnly: false,

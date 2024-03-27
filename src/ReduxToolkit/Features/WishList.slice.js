@@ -18,11 +18,11 @@ export const getUserWishList = createAsyncThunk(
   "getUserWishList",
   async ({ userId }) => {
     try {
-      console.log("Received ID The User Wish List :", userId);
+      // console.log("Received ID The User Wish List :", userId);
       const response = await axios.get(
         `http://localhost:8080/whislist/${userId}`
       );
-      console.log("API The User Wish List Response:", response.data);
+      // console.log("API The User Wish List Response:", response.data);
 
       return response.data;
     } catch (error) {

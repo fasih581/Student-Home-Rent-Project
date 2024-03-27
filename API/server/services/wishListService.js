@@ -32,7 +32,6 @@ const getWhishListByUser = asyncHandler(async (userId) => {
 // POST: create the user cart and his wish list
 const wishListPost = asyncHandler(async (res, userId, homeId) => {
   try {
-
     let cart = await wishListModal.findOne({ userId });
 
     // If the cart doesn't exist, create it
@@ -64,30 +63,30 @@ const wishListPost = asyncHandler(async (res, userId, homeId) => {
 });
 
 // DELETE: Delete the homeId in the favhome array
-const updateWishList = asyncHandler(async (res, userId, homeId ) => {
-    try {
-      let cart = await wishListModal.findOne({ userId });
-  
-      if (!cart) {
-        return res.status(404).json({ error: "Cart not found" });
-      }
-  
-      // Use pull to remove the homeId from the favHome array
-      cart.favHome.pull(homeId);
-  
-      // Save the updated cart
-      await cart.save();
-  
-      return cart ;
+const updateWishList = asyncHandler(async (userId, homeId) => {
+  try {
+    let cart = await wishListModal.findOne({ userId });
 
-    } catch (error) {
-      console.error("Error updating cart:", error);
-      res.status(500).json({ message: "Internal server error" });
+    if (!cart) {
+      throw { status: 404, message: "Cart not found" };
     }
-  });
+
+    // Use pull to remove the homeId from the favHome array
+    cart.favHome.pull(homeId);
+
+    // Save the updated cart
+    await cart.save();
+
+    return cart;
+  } catch (error) {
+    console.error("Error updating cart:", error);
+    throw { status: 500, message: "Internal server error" };
+  }
+});
+
 
 module.exports = {
   getWhishListByUser,
   wishListPost,
-  updateWishList
+  updateWishList,
 };

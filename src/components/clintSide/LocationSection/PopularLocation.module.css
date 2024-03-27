@@ -9,11 +9,13 @@ body {
 .container {
   max-width: 1300px;
   margin: 0 auto;
+  margin-top: 100px;
+  margin-bottom: 80px;
 }
 
-.header {
+/* .header {
   margin-top: 50px;
-}
+} */
 
 .header h2 {
   font-weight: 600;
@@ -48,6 +50,6 @@ body {
   width: 250px;
 }
 
-.cardSlider{
+.cardSlider {
   width: 1300px;
 }

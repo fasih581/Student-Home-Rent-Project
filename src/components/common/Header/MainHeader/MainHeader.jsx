@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Css from "./Mainheader.module.css";
-import Search from "../../../clintSide/SearchPage/SearchPage.jsx";
 
-import { FaHome, FaPhoneAlt, FaRegHeart, FaDownload, FaHeart } from "react-icons/fa";
+import {
+  FaHome,
+  FaPhoneAlt,
+  FaRegHeart,
+  FaHeart,
+} from "react-icons/fa";
 import { CgProfile } from "react-icons/cg";
 import { IoMdLogIn } from "react-icons/io";
 
@@ -20,19 +24,23 @@ import Select from "react-select";
 const MainHeader = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  // const [searchId, setSearchId] = useState(null);
-  // console.log("header searchIDDD", searchId);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const userId = localStorage.getItem("userId");
 
   const { data } = useSelector((state) => state.location);
 
-  const userId = localStorage.getItem("userId");
+  useEffect(() => {
+    dispatch(getData());
+    setIsLoggedIn(!!userId);
+  }, [dispatch, userId]);
 
-  const loginPath = () => {
-    navigate("/login");
+  const logOut = () => {
+    localStorage.removeItem("userId");
+    setIsLoggedIn(false);
   };
 
   const wishList = () => {
+    const userId = localStorage.getItem("userId");
     navigate(`/wish-list/${userId}`);
   };
 
@@ -40,9 +48,9 @@ const MainHeader = () => {
     navigate("/");
   };
 
-  useEffect(() => {
-    dispatch(getData());
-  }, [dispatch]);
+  const loginPath = () => {
+    navigate("/login");
+  };
 
   const options = data.map((location) => ({
     value: location._id,
@@ -71,7 +79,7 @@ const MainHeader = () => {
           />
         )}
       </div>
-      {userId ? (
+      {isLoggedIn ? (
         <div className={Css.navHeader}>
           <div className={Css.navbar}>
             {window.location.pathname === "/" ? (
@@ -139,7 +147,15 @@ const MainHeader = () => {
                   <Menu className={Css.dropDown} {...bindMenu(popupState)}>
                     <MenuItem onClick={popupState.close}>Profile</MenuItem>
                     <MenuItem onClick={popupState.close}>My account</MenuItem>
-                    <MenuItem onClick={popupState.close}>Logout</MenuItem>
+                    <MenuItem
+                      type="submit"
+                      onClick={() => {
+                        popupState.close();
+                        logOut();
+                      }}
+                    >
+                      Logout
+                    </MenuItem>
                   </Menu>
                 </div>
               )}

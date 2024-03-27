@@ -39,11 +39,16 @@ exports.postWishList = asyncHandler(async (req, res) => {
 exports.updateWishList = asyncHandler(async (req, res) => {
   const { userId, homeId } = req.params;
   try {
-    let cart = await Services.updateWishList(res, userId, homeId );
-
-    res.status(200).json({ cart });
+    let cart = await Services.updateWishList(userId, homeId);
+    res.status(200).json(cart);
   } catch (error) {
-    console.error("Error updating cart:", error);
-    res.status(500).json({ message: "Internal server error" });
+    if (error.status) {
+      res.status(error.status).json({ message: error.message });
+    } else {
+      console.error("Error updating cart:", error);
+      res.status(500).json({ message: "Internal server error" });
+    }
   }
 });
+
+

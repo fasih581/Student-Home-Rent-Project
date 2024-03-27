@@ -41,7 +41,7 @@ export const getHouseById = createAsyncThunk("getHouseById", async ({ id }) => {
 export const getPopularRoom = createAsyncThunk("getPopularRoom", async () => {
   try {
     const response = await axios.get(`http://localhost:8080/house/popular`);
-    console.log("API Response:", response.data);
+    // console.log("API Response:", response.data);
 
     return response.data;
   } catch (error) {
@@ -81,12 +81,13 @@ export const createCheckoutSession = createAsyncThunk(
   "createCheckoutSession",
   async ({ homeId, userId }) => {
     try {
-      console.log("Received homeId and userId:", homeId, userId);
+      // console.log("Received homeId and userId:", homeId, userId);
       const response = await axios.post(
-        `http://localhost:8080/stripe/create_checkout_session`,{homeId, userId}
+        `http://localhost:8080/stripe/create_checkout_session`,
+        { homeId, userId }
       );
-      console.log("homeId:", homeId);
-      console.log("createCheckoutSession:", response.data);
+      // console.log("homeId:", homeId);
+      // console.log("createCheckoutSession:", response.data);
 
       if (response.data.url) {
         window.location.href = response.data.url;
@@ -104,6 +105,7 @@ const houseSlice = createSlice({
   initialState: {
     data: [],
     dataById: [],
+    popularRoomData: [],
     status: "idle",
     isLoading: false,
     error: null,
@@ -140,7 +142,7 @@ const houseSlice = createSlice({
       })
       .addCase(getPopularRoom.fulfilled, (state, action) => {
         state.isLoading = false;
-        // state.data = action.payload;
+        state.popularRoomData = action.payload;
       })
       .addCase(getPopularRoom.rejected, (state, action) => {
         state.isLoading = false;
