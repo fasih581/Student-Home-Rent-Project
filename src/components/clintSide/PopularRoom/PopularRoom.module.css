@@ -57,7 +57,7 @@ button.location:focus {
 }
 
 button.location:focus .location p {
-  color: #fff;
+  color: #fff; 
 }
 
 .cardSlider {
